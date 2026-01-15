@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Refer & Earn | LYF TAG</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .header {
+        text-align: center;
+        color: white;
+        padding: 40px 20px;
+      }
+
+      .header h1 {
+        font-size: 48px;
+        font-weight: 800;
+        margin-bottom: 10px;
+      }
+
+      .header p {
+        font-size: 20px;
+        opacity: 0.9;
+      }
+
+      .main-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+      }
+
+      .card {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .card h2 {
+        font-size: 24px;
+        color: #2d3748;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .earnings-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+
+      .earnings-amount {
+        font-size: 56px;
+        font-weight: 800;
+        margin: 20px 0;
+      }
+
+      .earnings-label {
+        font-size: 18px;
+        opacity: 0.9;
+        margin-bottom: 30px;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .stat-box {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 15px;
+        border-radius: 12px;
+        backdrop-filter: blur(10px);
+      }
+
+      .stat-number {
+        font-size: 32px;
+        font-weight: 700;
+      }
+
+      .stat-label {
+        font-size: 14px;
+        opacity: 0.9;
+        margin-top: 5px;
+      }
+
+      .referral-link-box {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .referral-input {
+        flex: 1;
+        padding: 15px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        font-size: 16px;
+        font-family: "Courier New", monospace;
+        background: #f7fafc;
+      }
+
+      .btn {
+        padding: 15px 30px;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-secondary {
+        background: #f7fafc;
+        color: #2d3748;
+        border: 2px solid #e2e8f0;
+      }
+
+      .btn-secondary:hover {
+        background: #edf2f7;
+      }
+
+      .share-buttons {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .share-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .share-whatsapp {
+        background: #25d366;
+        color: white;
+      }
+
+      .share-telegram {
+        background: #0088cc;
+        color: white;
+      }
+
+      .share-email {
+        background: #ea4335;
+        color: white;
+      }
+
+      .share-twitter {
+        background: #1da1f2;
+        color: white;
+      }
+
+      .share-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .referral-list {
+        max-height: 400px;
+        overflow-y: auto;
+      }
+
+      .referral-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        background: #f7fafc;
+        border-radius: 10px;
+        margin-bottom: 10px;
+      }
+
+      .referral-info {
+        flex: 1;
+      }
+
+      .referral-name {
+        font-weight: 600;
+        color: #2d3748;
+        margin-bottom: 5px;
+      }
+
+      .referral-date {
+        font-size: 14px;
+        color: #718096;
+      }
+
+      .referral-earning {
+        font-size: 20px;
+        font-weight: 700;
+        color: #48bb78;
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 40px;
+        color: #718096;
+      }
+
+      .empty-state-icon {
+        font-size: 64px;
+        margin-bottom: 15px;
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: white;
+        padding: 20px 30px;
+        border-radius: 12px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        display: none;
+        align-items: center;
+        gap: 15px;
+        z-index: 1000;
+        animation: slideIn 0.3s ease;
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateX(400px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      .toast.success {
+        border-left: 4px solid #48bb78;
+      }
+
+      .toast.error {
+        border-left: 4px solid #f56565;
+      }
+
+      .toast-icon {
+        font-size: 24px;
+      }
+
+      .toast-message {
+        font-weight: 600;
+        color: #2d3748;
+      }
+
+      .loading {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .info-box {
+        background: #ebf8ff;
+        border-left: 4px solid #4299e1;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 20px;
+      }
+
+      .info-box p {
+        color: #2c5282;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .how-it-works {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        margin-top: 30px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .how-it-works h2 {
+        font-size: 28px;
+        color: #2d3748;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+      }
+
+      .step {
+        text-align: center;
+      }
+
+      .step-number {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        font-weight: 700;
+        margin: 0 auto 15px;
+      }
+
+      .step h3 {
+        color: #2d3748;
+        margin-bottom: 10px;
+      }
+
+      .step p {
+        color: #718096;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .withdraw-btn {
+        width: 100%;
+        margin-top: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header h1 {
+          font-size: 36px;
+        }
+
+        .main-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .earnings-amount {
+          font-size: 42px;
+        }
+
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .share-buttons {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>💰 Refer & Earn</h1>
+        <p>Invite friends and earn ₹50 for every successful referral!</p>
+      </div>
+
+      <div class="main-grid">
+        <!-- Earnings Card -->
+        <div class="card earnings-card">
+          <h2>💵 Your Earnings</h2>
+          <div class="earnings-amount">₹<span id="totalEarnings">0</span></div>
+          <div class="earnings-label">Total Earnings</div>
+
+          <div class="stats-grid">
+            <div class="stat-box">
+              <div class="stat-number" id="totalReferrals">0</div>
+              <div class="stat-label">Total Referrals</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-number" id="pendingReferrals">0</div>
+              <div class="stat-label">Pending</div>
+            </div>
+          </div>
+
+          <button
+            class="btn btn-secondary withdraw-btn"
+            onclick="requestWithdrawal()"
+          >
+            💳 Request Withdrawal
+          </button>
+        </div>
+
+        <!-- Referral Link Card -->
+        <div class="card">
+          <h2>🔗 Your Referral Link</h2>
+          <div class="referral-link-box">
+            <input
+              type="text"
+              class="referral-input"
+              id="referralLink"
+              readonly
+            />
+            <button class="btn btn-primary" onclick="copyReferralLink()">
+              📋 Copy
+            </button>
+          </div>
+
+          <div class="share-buttons">
+            <div class="share-btn share-whatsapp" onclick="shareWhatsApp()">
+              📱 WhatsApp
+            </div>
+            <div class="share-btn share-telegram" onclick="shareTelegram()">
+              ✈️ Telegram
+            </div>
+            <div class="share-btn share-email" onclick="shareEmail()">
+              📧 Email
+            </div>
+            <div class="share-btn share-twitter" onclick="shareTwitter()">
+              🐦 Twitter
+            </div>
+          </div>
+
+          <div class="info-box">
+            <p>
+              <strong>How it works:</strong> Share your unique referral link
+              with friends. When they sign up and make their first purchase, you
+              earn ₹50 instantly!
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Referral History -->
+      <div class="card" style="margin-top: 30px">
+        <h2>📊 Referral History</h2>
+        <div class="referral-list" id="referralList">
+          <div class="empty-state">
+            <div class="empty-state-icon">🎯</div>
+            <p>No referrals yet. Start sharing your link!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- How It Works -->
+      <div class="how-it-works">
+        <h2>How It Works</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <h3>Share Your Link</h3>
+            <p>
+              Copy your unique referral link and share it with friends via
+              WhatsApp, Email, or Social Media
+            </p>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <h3>Friend Signs Up</h3>
+            <p>
+              Your friend clicks your link, signs up, and makes their first
+              purchase on LYF TAG
+            </p>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <h3>You Both Earn</h3>
+            <p>
+              You earn ₹50 instantly, and your friend gets a special discount on
+              their first order!
+            </p>
+          </div>
+          <div class="step">
+            <div class="step-number">4</div>
+            <h3>Withdraw Money</h3>
+            <p>
+              Accumulated earnings can be withdrawn to your bank account or UPI
+              once you reach ₹500
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+      <div class="toast-icon" id="toastIcon"></div>
+      <div class="toast-message" id="toastMessage"></div>
+    </div>
+
+    <script>
+      // Firebase Configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyC68lKJmmOSJVkLWW5VvcYHY1PoLJ0qX-w",
+        authDomain: "lyftag-4b64b.firebaseapp.com",
+        projectId: "lyftag-4b64b",
+        storageBucket: "lyftag-4b64b.appspot.com",
+        messagingSenderId: "565411634580",
+        appId: "1:565411634580:web:83fb40b81582b766ae4381",
+      };
+
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+
+      let currentUser = null;
+      let referralCode = null;
+
+      // Initialize
+      auth.onAuthStateChanged(async (user) => {
+        if (user) {
+          currentUser = user;
+          await initializeReferralSystem();
+          loadReferralData();
+        } else {
+          window.location.href = "login.html";
+        }
+      });
+
+      // Initialize Referral System
+      async function initializeReferralSystem() {
+        try {
+          // Check if user has a referral code
+          const userDoc = await db
+            .collection("users")
+            .doc(currentUser.uid)
+            .get();
+
+          if (userDoc.exists && userDoc.data().referralCode) {
+            referralCode = userDoc.data().referralCode;
+          } else {
+            // Generate new referral code
+            referralCode = generateReferralCode();
+            await db.collection("users").doc(currentUser.uid).set(
+              {
+                email: currentUser.email,
+                displayName: currentUser.displayName,
+                referralCode: referralCode,
+                totalEarnings: 0,
+                totalReferrals: 0,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+              },
+              { merge: true }
+            );
+          }
+
+          // Display referral link
+          const referralLink = `${window.location.origin}/signup.html?ref=${referralCode}`;
+          document.getElementById("referralLink").value = referralLink;
+        } catch (error) {
+          console.error("Error initializing referral system:", error);
+          showToast("Error loading referral data", "error");
+        }
+      }
+
+      // Generate Referral Code
+      function generateReferralCode() {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        let code = "";
+        for (let i = 0; i < 8; i++) {
+          code += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return code;
+      }
+
+      // Load Referral Data
+      async function loadReferralData() {
+        try {
+          const userDoc = await db
+            .collection("users")
+            .doc(currentUser.uid)
+            .get();
+          const userData = userDoc.data();
+
+          // Update earnings display
+          document.getElementById("totalEarnings").textContent =
+            userData.totalEarnings || 0;
+          document.getElementById("totalReferrals").textContent =
+            userData.totalReferrals || 0;
+
+          // Load referral history
+          const referralsSnapshot = await db
+            .collection("referrals")
+            .where("referrerId", "==", currentUser.uid)
+            .orderBy("createdAt", "desc")
+            .get();
+
+          displayReferralHistory(referralsSnapshot);
+
+          // Count pending referrals
+          const pendingCount = referralsSnapshot.docs.filter(
+            (doc) => doc.data().status === "pending"
+          ).length;
+          document.getElementById("pendingReferrals").textContent =
+            pendingCount;
+        } catch (error) {
+          console.error("Error loading referral data:", error);
+        }
+      }
+
+      // Display Referral History
+      function displayReferralHistory(snapshot) {
+        const referralList = document.getElementById("referralList");
+
+        if (snapshot.empty) {
+          referralList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🎯</div>
+                        <p>No referrals yet. Start sharing your link!</p>
+                    </div>
+                `;
+          return;
+        }
+
+        referralList.innerHTML = "";
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          const date = data.createdAt
+            ? new Date(data.createdAt.toDate()).toLocaleDateString()
+            : "Recent";
+
+          const item = document.createElement("div");
+          item.className = "referral-item";
+          item.innerHTML = `
+                    <div class="referral-info">
+                        <div class="referral-name">${
+                          data.referredEmail || "New User"
+                        }</div>
+                        <div class="referral-date">${date} • ${
+            data.status
+          }</div>
+                    </div>
+                    <div class="referral-earning">
+                        ${data.status === "completed" ? "₹50" : "₹0"}
+                    </div>
+                `;
+          referralList.appendChild(item);
+        });
+      }
+
+      // Copy Referral Link
+      function copyReferralLink() {
+        const input = document.getElementById("referralLink");
+        input.select();
+        input.setSelectionRange(0, 99999); // For mobile
+
+        try {
+          document.execCommand("copy");
+          showToast("Referral link copied! 🎉", "success");
+        } catch (err) {
+          // Fallback for modern browsers
+          navigator.clipboard
+            .writeText(input.value)
+            .then(() => {
+              showToast("Referral link copied! 🎉", "success");
+            })
+            .catch(() => {
+              showToast("Failed to copy link", "error");
+            });
+        }
+      }
+
+      // Share via WhatsApp
+      function shareWhatsApp() {
+        const link = document.getElementById("referralLink").value;
+        const message = `🎉 Join LYF TAG using my referral link and get a special discount!\n\n${link}\n\nScan. Connect. Save Lives. 🚨`;
+        window.open(
+          `https://wa.me/?text=${encodeURIComponent(message)}`,
+          "_blank"
+        );
+      }
+
+      // Share via Telegram
+      function shareTelegram() {
+        const link = document.getElementById("referralLink").value;
+        const message = `Join LYF TAG using my referral link and get a special discount! ${link}`;
+        window.open(
+          `https://t.me/share/url?url=${encodeURIComponent(
+            link
+          )}&text=${encodeURIComponent(message)}`,
+          "_blank"
+        );
+      }
+
+      // Share via Email
+      function shareEmail() {
+        const link = document.getElementById("referralLink").value;
+        const subject = "Join LYF TAG - Smart Safety Technology";
+        const body = `Hi!\n\nI'm using LYF TAG for smart safety and emergency response. You should check it out too!\n\nUse my referral link to get a special discount:\n${link}\n\nScan. Connect. Save Lives.\n\nBest regards`;
+        window.location.href = `mailto:?subject=${encodeURIComponent(
+          subject
+        )}&body=${encodeURIComponent(body)}`;
+      }
+
+      // Share via Twitter
+      function shareTwitter() {
+        const link = document.getElementById("referralLink").value;
+        const message = `Join LYF TAG using my referral link! Smart Safety Technology that saves lives. ${link} #BeTheSafeOne`;
+        window.open(
+          `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+            message
+          )}`,
+          "_blank"
+        );
+      }
+
+      // Request Withdrawal
+
+      // TODO: write fix
+      async function requestWithdrawal() {
+        try {
+          const userDoc = await db
+            .collection("users")
+            .doc(currentUser.uid)
+            .get();
+          const totalEarnings = userDoc.data().totalEarnings || 0;
+
+          if (totalEarnings < 500) {
+            showToast("Minimum withdrawal amount is ₹500", "error");
+            return;
+          }
+
+          // Create withdrawal request
+          await db.collection("withdrawalRequests").add({
+            userId: currentUser.uid,
+            email: currentUser.email,
+            amount: totalEarnings,
+            status: "pending",
+            requestedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          });
+
+           await db.collection("users").doc(currentUser.uid).update({
+            totalEarnings: 0,
+          });
+
+          showToast(
+            "Withdrawal request submitted! We'll process it within 3-5 business days.",
+            "success"
+          );
+        } catch (error) {
+          console.error("Error requesting withdrawal:", error);
+          showToast("Failed to submit withdrawal request", "error");
+        }
+      }
+
+      // Show Toast Notification
+      function showToast(message, type = "success") {
+        const toast = document.getElementById("toast");
+        const icon = document.getElementById("toastIcon");
+        const messageEl = document.getElementById("toastMessage");
+
+        toast.className = `toast ${type}`;
+        icon.textContent = type === "success" ? "✅" : "❌";
+        messageEl.textContent = message;
+
+        toast.style.display = "flex";
+
+        setTimeout(() => {
+          toast.style.display = "none";
+        }, 3000);
+      }
+
+      window.trackReferral = async function (newUserId, referralCode) {
+        try {
+          const refDoc = await db
+            .collection("referralCodes")
+            .doc(referralCode)
+            .get();
+
+          if (refDoc.exists) {
+            const referrerId = refDoc.data().userId;
+
+            // Create the document to trigger the secure backend payout
+            await db.collection("referrals").add({
+              referrerId: referrerId,
+              referredUserId: newUserId,
+              referredEmail: auth.currentUser.email,
+              status: "completed",
+              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            });
+            console.log(
+              "Referral tracked. Payout will be processed by backend."
+            );
+          }
+        } catch (error) {
+          console.error("Error tracking referral:", error);
+        }
+      };
+    </script>
+  </body>
+</html>

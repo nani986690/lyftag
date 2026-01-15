@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create an Account | LYF TAG</title>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: Inter, Arial, sans-serif;
+        background: #f5f7fa;
+        height: 100vh;
+        display: flex;
+        overflow: hidden;
+      }
+
+      .wrapper {
+        display: flex;
+        width: 100%;
+        height: 100vh;
+      }
+
+      .left-panel {
+        width: 50%;
+        background: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 50px;
+        box-sizing: border-box;
+        overflow-y: auto;
+      }
+
+      .form-box {
+        width: 100%;
+        max-width: 380px;
+      }
+
+      h2 {
+        font-size: 26px;
+        font-weight: 700;
+        margin-bottom: 6px;
+        color: #003d44;
+      }
+
+      p.subtitle {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 25px;
+      }
+
+      /* Referral Badge */
+      .referral-badge {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 12px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 600;
+        display: none;
+        animation: slideDown 0.5s ease;
+      }
+
+      .referral-badge.active {
+        display: block;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 14px;
+        color: #444;
+        font-weight: 500;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        margin-bottom: 18px;
+        font-size: 14px;
+        box-sizing: border-box;
+        transition: 0.2s;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: #003d44;
+        box-shadow: 0 0 0 3px rgba(0, 61, 68, 0.1);
+      }
+
+      .input-with-icon {
+        position: relative;
+        margin-bottom: 18px;
+      }
+
+      .input-with-icon input {
+        margin-bottom: 0;
+      }
+
+      .eye-icon {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        opacity: 0.6;
+        user-select: none;
+        font-size: 20px;
+      }
+
+      .eye-icon:hover {
+        opacity: 1;
+      }
+
+      .checkbox-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: -8px;
+        margin-bottom: 18px;
+      }
+
+      .checkbox-row input[type="checkbox"] {
+        width: auto;
+        margin: 0;
+      }
+
+      .checkbox-row label {
+        margin: 0;
+        font-size: 13px;
+      }
+
+      .checkbox-row a {
+        color: #003d44;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      button.btn {
+        width: 100%;
+        padding: 12px;
+        background: #003d44;
+        color: white;
+        font-size: 15px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        margin-top: 5px;
+        margin-bottom: 20px;
+        transition: 0.25s;
+      }
+
+      button.btn:hover {
+        background: #005561;
+      }
+
+      button.btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        opacity: 0.7;
+      }
+
+      .or-divider {
+        text-align: center;
+        margin: 15px 0;
+        color: #888;
+        position: relative;
+        font-size: 13px;
+      }
+
+      .or-divider::before,
+      .or-divider::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 38%;
+        height: 1px;
+        background: #ddd;
+      }
+
+      .or-divider::before {
+        left: 0;
+      }
+      .or-divider::after {
+        right: 0;
+      }
+
+      .social-btns {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 15px;
+      }
+
+      .social-btn {
+        flex: 1;
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        background: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        transition: 0.2s;
+        font-size: 14px;
+      }
+
+      .social-btn:hover {
+        background: #f7f7f7;
+      }
+
+      .social-btn:active {
+        transform: scale(0.98);
+      }
+
+      .login-link {
+        text-align: center;
+        font-size: 13px;
+        margin-top: 10px;
+      }
+
+      .login-link a {
+        color: #003d44;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .right-panel {
+        width: 50%;
+        background: #003d44;
+        color: white;
+        padding: 60px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        box-sizing: border-box;
+      }
+
+      .right-panel h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+
+      .right-panel p {
+        font-size: 14px;
+        max-width: 380px;
+        opacity: 0.9;
+        margin-bottom: 25px;
+        line-height: 1.6;
+      }
+
+      @media (max-width: 900px) {
+        body {
+          overflow-y: auto;
+        }
+
+        .wrapper {
+          flex-direction: column;
+          height: auto;
+        }
+
+        .left-panel,
+        .right-panel {
+          width: 100%;
+          padding: 30px;
+        }
+
+        .right-panel {
+          align-items: center;
+          text-align: center;
+        }
+      }
+    </style>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyC68lKJmmOSJVkLWW5VvcYHY1PoLJ0qX-w",
+        authDomain: "lyftag-4b64b.firebaseapp.com",
+        projectId: "lyftag-4b64b",
+        storageBucket: "lyftag-4b64b.appspot.com",
+        messagingSenderId: "565411634580",
+        appId: "1:565411634580:web:83fb40b81582b766ae4381",
+      };
+
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+
+      // Detect referral code from URL
+      let referralCode = null;
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has("ref")) {
+        referralCode = urlParams.get("ref");
+        console.log("🎉 Referral code detected:", referralCode);
+      }
+    </script>
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <div class="left-panel">
+        <div class="form-box">
+          <h2>Create an account</h2>
+          <p class="subtitle">Please enter your details below to get started</p>
+
+          <!-- Referral Badge -->
+          <div class="referral-badge" id="referralBadge">
+            🎉 You're signing up with a referral code! Get special benefits!
+          </div>
+
+          <label>Name</label>
+          <input id="name" type="text" placeholder="Enter your name" />
+
+          <label>Email</label>
+          <input id="email" type="email" placeholder="Enter your email" />
+
+          <label>Password</label>
+          <div class="input-with-icon">
+            <input
+              id="password"
+              type="password"
+              placeholder="Enter your password"
+            />
+            <span class="eye-icon" onclick="togglePassword('password', this)"
+              >👁</span
+            >
+          </div>
+
+          <label>Confirm Password</label>
+          <div class="input-with-icon">
+            <input
+              id="confirmPassword"
+              type="password"
+              placeholder="Confirm your password"
+            />
+            <span
+              class="eye-icon"
+              onclick="togglePassword('confirmPassword', this)"
+              >👁</span
+            >
+          </div>
+
+          <label>Referral Code (optional)</label>
+          <input
+            id="referralInput"
+            type="text"
+            placeholder="Enter referral code if you have one"
+          />
+
+          <div class="checkbox-row">
+            <input type="checkbox" id="terms" checked />
+            <label for="terms"
+              >I agree to all the <a href="#">Terms & Conditions</a></label
+            >
+          </div>
+
+          <button class="btn" onclick="emailSignup()" id="signupBtn">
+            Sign up
+          </button>
+
+          <div class="or-divider">Or</div>
+
+          <div class="social-btns">
+            <div class="social-btn" onclick="googleLogin()" id="googleBtn">
+              <span style="font-size: 16px">G</span> Google
+            </div>
+            <div
+              class="social-btn"
+              onclick="alert('Facebook signup coming soon!')"
+            >
+              <span style="font-size: 16px">f</span> Facebook
+            </div>
+          </div>
+
+          <div class="login-link">
+            Already have an account? <a href="login.html">Log in</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-panel">
+        <h1>Join LYF TAG Today</h1>
+        <p>
+          Welcome to our smart safety ecosystem. Track and manage with ease.
+          Scan. Connect. Save Lives.
+        </p>
+      </div>
+    </div>
+
+    <script>
+      // Show referral badge if code exists
+      if (referralCode) {
+        document.getElementById("referralBadge").classList.add("active");
+      }
+
+      // Toggle password visibility
+      function togglePassword(id, icon) {
+        const field = document.getElementById(id);
+        if (field.type === "password") {
+          field.type = "text";
+          icon.textContent = "🙈";
+        } else {
+          field.type = "password";
+          icon.textContent = "👁";
+        }
+      }
+
+      // Generate unique referral code
+      function generateReferralCode() {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        let code = "";
+        for (let i = 0; i < 8; i++) {
+          code += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return code;
+      }
+
+      // NEW SECURE VERSION: Only creates the record, backend handles the money
+
+      /* ================== FIX ===================
+        added the email parameter
+        ============================================ */
+      async function trackReferral(newUserId, referral, email) {
+        if (!referral) return;
+
+        try {
+          console.log("Signaling referral for code:", referral);
+
+          // Find the referrer by their code
+          const referralDoc = await db
+            .collection("referralCodes")
+            .doc(referral)
+            .get();
+
+          if (referralDoc.exists) {
+            const referrerId = referralDoc.data().userId;
+
+            // Create referral record - THIS TRIGGERS YOUR CLOUD FUNCTION
+            await db.collection("referrals").add({
+              referrerId: referrerId,
+              referredUserId: newUserId,
+              referredEmail: email, // Use the email variable from your signup function
+              status: "completed",
+              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            });
+
+            // ✅ REMOVED: Insecure totalEarnings.increment(50)
+            console.log("✅ Referral signal sent to backend.");
+          }
+        } catch (error) {
+          console.error("❌ Error signaling referral:", error);
+        }
+      }
+
+      // Email Signup
+      async function emailSignup() {
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const pass = document.getElementById("password").value;
+        const confirm = document.getElementById("confirmPassword").value;
+        const termsChecked = document.getElementById("terms").checked;
+        const manualReferral = document
+          .getElementById("referralInput")
+          .value.trim();
+
+        // Validation
+        if (!name) {
+          alert("Please enter your name");
+          return;
+        }
+
+        if (!email) {
+          alert("Please enter your email");
+          return;
+        }
+
+        if (!pass) {
+          alert("Please enter a password");
+          return;
+        }
+
+        if (pass.length < 6) {
+          alert("Password must be at least 6 characters");
+          return;
+        }
+
+        if (pass !== confirm) {
+          alert("Passwords do not match");
+          return;
+        }
+
+        if (!termsChecked) {
+          alert("Please agree to the Terms & Conditions");
+          return;
+        }
+
+        console.log("Starting email signup...");
+
+        const signupBtn = document.getElementById("signupBtn");
+        signupBtn.disabled = true;
+        signupBtn.textContent = "Creating account...";
+
+        try {
+          // ⭐ Validate referral code BEFORE creating user
+          if (manualReferral) {
+            console.log("Checking referral:", manualReferral);
+
+            // ⭐ CHANGED - Check referralCodes collection instead
+            const refCheck = await db
+              .collection("referralCodes")
+              .doc(manualReferral)
+              .get();
+
+            if (!refCheck.exists) {
+              alert("Invalid referral code!");
+              signupBtn.disabled = false;
+              signupBtn.textContent = "Sign up";
+              return;
+            }
+
+            console.log("Referral code is valid!");
+          }
+
+          // Create user account
+          const cred = await auth.createUserWithEmailAndPassword(email, pass);
+          console.log("✅ Account created:", cred.user.uid);
+
+          // Update profile with name and photo
+          await cred.user.updateProfile({
+            displayName: name,
+            photoURL: "https://i.imgur.com/4ZQZ4sC.png",
+          });
+          console.log("✅ Profile updated");
+
+          // Generate unique referral code for new user
+          const newReferralCode = generateReferralCode();
+          console.log("Generated referral code:", newReferralCode);
+
+          // Save user data to Firestore
+          await db
+            .collection("users")
+            .doc(cred.user.uid)
+            .set({
+              email: email,
+              displayName: name,
+              referralCode: newReferralCode,
+              totalEarnings: 0,
+              totalReferrals: 0,
+              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+              referredBy: manualReferral || referralCode || null,
+            });
+          console.log("✅ User data saved to Firestore");
+          // ⭐ ADD THIS - Save to public referralCodes collection
+          await db.collection("referralCodes").doc(newReferralCode).set({
+            userId: cred.user.uid,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          });
+          console.log("✅ Referral code saved to public collection");
+
+          // Track referral if code exists
+
+          /* ============================== FIX ================================
+            passed the email argument to trackReferral
+            ====================================================================*/
+          await trackReferral(
+            cred.user.uid,
+            manualReferral || referralCode,
+            cred.user.email
+          );
+
+          alert("Account created successfully!");
+
+          // Redirect to home page
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 500);
+        } catch (err) {
+          console.error("❌ Signup error:", err);
+          signupBtn.disabled = false;
+          signupBtn.textContent = "Sign up";
+
+          let errorMessage = "Sign-up failed: ";
+          switch (err.code) {
+            case "auth/email-already-in-use":
+              errorMessage =
+                "This email is already registered. Please login instead.";
+              break;
+            case "auth/invalid-email":
+              errorMessage = "Invalid email address format.";
+              break;
+            case "auth/weak-password":
+              errorMessage = "Password is too weak. Use at least 6 characters.";
+              break;
+            default:
+              errorMessage += err.message;
+          }
+          alert(errorMessage);
+        }
+      }
+
+      // Google Signup
+      async function googleLogin() {
+        console.log("Starting Google signup...");
+
+        const googleBtn = document.getElementById("googleBtn");
+        googleBtn.style.opacity = "0.6";
+        googleBtn.style.pointerEvents = "none";
+
+        // ⭐ Get manual referral code entered by user
+        const manualReferral = document
+          .getElementById("referralInput")
+          .value.trim();
+
+        // ⭐ Validate manual referral BEFORE Google popup
+        if (manualReferral) {
+          console.log("Checking manual referral:", manualReferral);
+          // ⭐ CHANGED - Check referralCodes collection instead
+          const refCheck = await db
+            .collection("referralCodes")
+            .doc(manualReferral)
+            .get();
+
+          if (!refCheck.exists) {
+            alert("Invalid referral code!");
+            googleBtn.style.opacity = "1";
+            googleBtn.style.pointerEvents = "auto";
+            return;
+          }
+          console.log("Manual referral validated successfully.");
+        }
+
+        // ⭐ Choose final referral (manual > URL > null)
+        const finalReferral = manualReferral || referralCode || null;
+
+        const provider = new firebase.auth.GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: "select_account" });
+
+        try {
+          const result = await auth.signInWithPopup(provider);
+          console.log("Google sign-in successful:", result.user.uid);
+
+          // Check if user already exists
+          const userDoc = await db
+            .collection("users")
+            .doc(result.user.uid)
+            .get();
+
+          if (!userDoc.exists) {
+            console.log("New user - creating profile...");
+
+            const newReferralCode = generateReferralCode();
+
+            await db.collection("users").doc(result.user.uid).set({
+              email: result.user.email,
+              displayName: result.user.displayName,
+              referralCode: newReferralCode,
+              totalEarnings: 0,
+              totalReferrals: 0,
+              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+              referredBy: finalReferral,
+            });
+
+            console.log("User profile created.");
+            // ⭐ ADD THIS - Save to public referralCodes collection
+            await db.collection("referralCodes").doc(newReferralCode).set({
+              userId: result.user.uid,
+              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            });
+            console.log("✅ Referral code saved to public collection");
+
+            // ⭐ Track referral properly ONLY if exists
+            if (finalReferral) {
+              /* ======================= FIX =======================================
+                passed the email argument to trackReferral
+                ====================================================================*/
+              await trackReferral(
+                result.user.uid,
+                finalReferral,
+                result.user.email
+              );
+            }
+          } else {
+            console.log("Existing user - skipping profile creation.");
+          }
+
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 500);
+        } catch (err) {
+          console.error("Google login error:", err);
+          googleBtn.style.opacity = "1";
+          googleBtn.style.pointerEvents = "auto";
+          alert("Google sign-up failed: " + err.message);
+        }
+      }
+    </script>
+  </body>
+</html>
