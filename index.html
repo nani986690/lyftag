@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -15,7 +15,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style (2).css" />
   </head>
   <body>
     <nav class="navbar" aria-label="Primary">
@@ -195,7 +195,11 @@
               <h3>Lost & Theft Mode</h3>
               <p>Mark your vehicle or belongings as stolen instantly</p>
             </div>
-          
+            <div class="feature-card">
+              <div class="feature-icon">🆘</div>
+              <h3>AI Crash Detection</h3>
+              <p>Automatic SOS triggered by AI crash detection technology</p>
+            </div>
             <div class="feature-card">
               <div class="feature-icon">🔐</div>
               <h3>Blockchain Vault</h3>
@@ -274,7 +278,7 @@
         </div>
       </section>
 
-    <!--  <section id="impact" class="impact">
+      <section id="impact" class="impact">
         <div class="container">
           <h2 class="section-title">Social Impact</h2>
           <div class="impact-grid">
@@ -332,7 +336,7 @@
             </div>
           </div>
         </div>
-      </section> -->
+      </section>
 
       <section id="packages" class="packages">
         <div class="wrap">
@@ -342,19 +346,20 @@
             <article class="card left" aria-labelledby="basic-title">
               <h3 id="basic-title">Basic Tag</h3>
               <div class="price">
-                <span class="currency rupee">₹</span><span>999</span>
+                <span class="currency rupee">₹</span><span>1,499</span>
               </div>
 
               <div class="features" aria-hidden="false">
-               <div class="feature">QR Code Access</div>
-    <div class="feature">One-Tap SOS</div>
-    <div class="feature">5 Emergency Contacts</div>
-    <div class="feature">GPS Location Sharing</div>
-    <div class="feature">Insurance Claims (₹3L - ₹5L)</div>
+                <div class="feature">QR + NFC Tag</div>
+                <div class="feature">5 Emergency Contacts</div>
+                <div class="feature">GPS Location Sharing</div>
+                <div class="feature">Cloud Dashboard</div>
               </div>
 
               <div class="cta">
-                <a class="btn" href="payment.html">Get Started</a>
+                <a class="btn" href="#" onclick="startPayment(1499, 'Basic')"
+                  >Get Started</a
+                >
               </div>
             </article>
 
@@ -362,24 +367,44 @@
               <div class="badge-popular">Popular</div>
               <h3 id="premium-title">Premium Tag</h3>
               <div class="price">
-                <span class="currency rupee">₹</span><span>1,499</span>
+                <span class="currency rupee">₹</span><span>1,999</span>
               </div>
 
               <div class="features">
-               <div class="feature">Everything in Basic</div>
-    <div class="feature">Cloud Dashboard</div>
-    <div class="feature">Blood Donors</div>
-    <div class="feature">Health ID Storage</div>
-    <div class="feature">Blockchain Vault</div>
-    <div class="feature">Insurance Claims (₹8L - ₹10L)</div>
+                <div class="feature">Everything in Basic</div>
+                <div class="feature">AI Crash Detection</div>
+                <div class="feature">Health ID Storage</div>
+                <div class="feature">Blockchain Vault</div>
+                <div class="feature">Priority Support</div>
               </div>
 
               <div class="cta">
-                <a class="btn" href="payment.html">Get Started</a>
+                <a class="btn" href="#" onclick="startPayment(1999, 'Premium')"
+                  >Get Started</a
+                >
               </div>
             </article>
 
-           
+            <article class="card right" aria-labelledby="premiumplus-title">
+              <h3 id="premiumplus-title">Premium+</h3>
+              <div class="price">
+                <span class="currency rupee">₹</span><span>99-199</span
+                ><span class="small-sub">/month</span>
+              </div>
+
+              <div class="features">
+                <div class="feature">Everything in Premium</div>
+                <div class="feature">Analytics Dashboard</div>
+                <div class="feature">Insurance Claims</div>
+                <div class="feature">Unlimited Tags</div>
+              </div>
+
+              <div class="cta">
+                <a class="btn" href="#" onclick="startPayment(1, 'Premium+')"
+                  >Get Started</a
+                >
+              </div>
+            </article>
           </div>
         </div>
       </section>
@@ -507,6 +532,82 @@
     </footer>
 
     <script type="module" src="./main.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <script>
+      async function startPayment(amount, plan) {
+        const user = auth.currentUser;
+
+        if (!user) {
+          alert("Please login to purchase a plan");
+          window.location.href = "login.html";
+          return;
+        }
+
+        try {
+          const res = await fetch(
+            "https://api-c2pdairi6a-el.a.run.app/create-order",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                amount: amount,
+                plan: plan,
+                userId: user.uid,
+              }),
+            },
+          );
+
+          if (!res.ok) throw new Error("Failed to create order");
+
+          const order = await res.json();
+
+          const options = {
+            key: "rzp_live_S4z7wWEGkYyTNM", // replace with live/test key
+            amount: order.amount,
+            currency: "INR",
+            name: "LYF TAG",
+            description: "Subscription Payment",
+            order_id: order.id,
+
+            handler: async function (response) {
+              try {
+                await fetch(
+                  "https://api-c2pdairi6a-el.a.run.app/verify-payment",
+                  {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      razorpay_payment_id: response.razorpay_payment_id,
+                      razorpay_order_id: response.razorpay_order_id,
+                      razorpay_signature: response.razorpay_signature,
+                      amount: amount,
+                      plan: plan,
+                      userId: user.uid,
+                    }),
+                  },
+                );
+                alert("Payment successful! Your plan is activated.");
+                window.location.href = "refer-earn.html"; // Redirecting to dashboard/refer-earn
+              } catch (verifyError) {
+                console.error("Verification failed", verifyError);
+                alert("Payment verification failed. Please contact support.");
+              }
+            },
+            modal: {
+              ondismiss: function () {
+                console.log("Checkout form closed");
+              },
+            },
+          };
+          const rzp = new Razorpay(options);
+          rzp.open();
+        } catch (error) {
+          console.error("Payment initialization failed:", error);
+          alert("Could not start payment. Please try again.");
+        }
+      }
+    </script>
 
     <!-- Firebase v8 CDN -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -536,7 +637,7 @@
         const profileSection = document.getElementById("user-profile");
         const authButtons = document.getElementById("auth-buttons");
         const referralLoggedOut = document.getElementById(
-          "referral-logged-out"
+          "referral-logged-out",
         );
         const referralLoggedIn = document.getElementById("referral-logged-in");
 
